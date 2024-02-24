@@ -7,7 +7,7 @@ const User = db.users;
 // User signup handler
 const signUp = async (req, res, next) => {
   try {
-    const { userName, email, password } = req.body;
+    const { userName, email, password, role = 'user' } = req.body; // Default role to 'user'
     const existingUser = await User.findOne({ where: { email } });
 
     if (existingUser) {
@@ -19,14 +19,15 @@ const signUp = async (req, res, next) => {
       userName,
       email,
       password: hashedPassword,
+      role // Include role in user creation
     });
 
-    const token = jwt.sign({ id: user.id }, process.env.secretKey, {
+    const token = jwt.sign({ id: user.id, role: user.role }, process.env.secretKey, {
       expiresIn: '24h',
     });
 
     res.cookie("jwt", token, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true });
-    return res.status(201).json(user);
+    return res.status(201).json({ user, token }); // Include token in the response
   } catch (error) {
     next(error); // Passing errors to the error middleware
   }
@@ -58,7 +59,19 @@ const login = async (req, res, next) => {
   }
 };
 
+const list = async (req, res, next) => {
+  try {
+    const users = await User.findAll({
+      attributes: ['id', 'userName', 'email', 'role'], // Do not return passwords
+    });
+    res.json(users);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   signUp,
   login,
+  list
 };
