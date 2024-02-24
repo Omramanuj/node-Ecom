@@ -1,0 +1,36 @@
+node-Ecom/
+│
+│   ├── controllers/
+│   │   ├── userController.js
+│   │   ├── categoryController.js
+│   │   ├── productController.js
+│   │   ├── cartController.js
+│   │   └── orderController.js
+│   │
+│   ├── models/
+│   │   ├── userModel.js
+│   │   ├── categoryModel.js
+│   │   ├── productModel.js
+│   │   ├── cartModel.js
+│   │   └── orderModel.js
+│   │
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   ├── categoryRoutes.js
+│   │   ├── productRoutes.js
+│   │   ├── cartRoutes.js
+│   │   └── orderRoutes.js
+│   │
+│   ├── middleware/
+│   │   ├── authMiddleware.js
+│   │   └── errorMiddleware.js
+│   │
+│   ├── utils/
+│   │   └── jwtUtils.js
+│   │
+│   └── db/
+│       └── index.js
+│
+├── package.json
+├── .env
+└── server.js
